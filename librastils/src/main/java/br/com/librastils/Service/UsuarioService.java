@@ -10,8 +10,34 @@ import java.util.List;
 public class UsuarioService {
     private final UsuarioRepository usuarioRepository;
 
-    public UsuarioService(UsuarioRepository usuarioRepository){
+    public UsuarioService(UsuarioRepository usuarioRepository) {
         this.usuarioRepository = usuarioRepository;
+    }
+
+    public Usuario criar(Usuario usuario) {
+        if (usuarioRepository.existsByEmail(usuario.getEmail())) {
+            throw new RuntimeException("Email já em uso");
+        }
+        if(usuario.getUser()!= null){
+            throw new RuntimeException("O Nome está vazio");
+        }
+        return usuarioRepository.save(usuario);
+    }
+
+    public Usuario buscarUsuarioPorCpf(String cpf){
+        var aux = usuarioRepository.findById(cpf);
+        if(aux.isEmpty()){
+            throw new RuntimeException("Não existe esse usuário");
+        }
+        return aux.get();
+    }
+
+    public List<Usuario> buscarTodos(){
+        return  usuarioRepository.findAll();
+    }
+
+    public void deletar(String cpf){
+        usuarioRepository.deleteById(cpf);
     }
 
     public Usuario save(Usuario usuario){
