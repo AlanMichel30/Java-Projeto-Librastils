@@ -24,6 +24,7 @@ public class Usuario {
     private double dataDeNascimento;
     @Id
     private String cpf;
+    private Genero genero;
     private String telefone;
     private String email;
     private double senha;
